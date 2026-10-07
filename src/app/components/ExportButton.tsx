@@ -127,7 +127,7 @@ export function ExportButton({ props, format, onExported }: Props) {
         disabled={disabled}
         title={state.kind === 'unsupported' ? state.reason : state.kind === 'rendering' ? 'Cancel' : label}
         aria-label={label}
-        className="group relative flex h-11 w-full min-w-[104px] shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full bg-ink px-4 text-[14px] sm:h-9 sm:w-auto sm:text-[13px] sm:@max-[480px]:w-9 sm:@max-[480px]:min-w-0 sm:@max-[480px]:px-0 font-medium text-canvas transition-[transform,opacity] duration-200 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40"
+        className="group relative flex h-11 w-full min-w-[104px] shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full bg-ink px-4 text-[14px] sm:h-9 sm:w-auto sm:text-[13px] sm:@max-[456px]:w-9 sm:@max-[456px]:min-w-0 sm:@max-[456px]:px-0 font-medium text-canvas transition-[transform,opacity] duration-200 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40"
       >
         {state.kind === 'rendering' ? (
           <motion.span
@@ -156,7 +156,7 @@ export function ExportButton({ props, format, onExported }: Props) {
               )}
             </motion.span>
           </AnimatePresence>
-          <span className="tabular-nums sm:@max-[480px]:hidden">{label}</span>
+          <span className="tabular-nums sm:@max-[456px]:hidden">{label}</span>
         </span>
       </button>
       {state.kind === 'unsupported' ? (

@@ -1,5 +1,6 @@
 import { Composition, Folder } from 'remotion'
 import { compositionFor } from '../src/video/composition'
+import { OG_SIZE, OgImage } from '../src/video/OgImage'
 import { sampleHistoryProps, sampleProps, TIER_SAMPLE_STARS, tierSampleProps } from '../src/video/fixtures'
 import { FORMAT_IDS } from '../src/video/formats'
 import { starsVideoSchema, type StarsVideoProps, type StyleId } from '../src/video/schema'
@@ -22,6 +23,7 @@ function Comp({ id, style, format, props }: { id: string; style: StyleId; format
 export function Root() {
   return (
     <>
+      <Composition id="OgImage" component={OgImage} {...OG_SIZE} fps={30} durationInFrames={1} />
       {STYLES.map(({ style, name }) => (
         <Folder key={style} name={name}>
           {variants.map((variant) =>

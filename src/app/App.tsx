@@ -13,6 +13,7 @@ import { RepoInput } from './components/RepoInput'
 import { ShareButton } from './components/ShareButton'
 import { readUrlState, writeUrlState } from './urlState'
 import { useRepoVideo } from './useRepoVideo'
+import { useSystemTheme } from './useSystemTheme'
 
 const SOURCE_URL = 'https://github.com/icanvardar/gitstars'
 const AUTHOR_URL = 'https://x.com/icanvardar'
@@ -32,7 +33,11 @@ const rise = (delay: number) => ({
 
 export function App() {
   const initial = useMemo(readUrlState, [])
-  const [theme, setTheme] = useState<ThemeId>(initial.theme)
+  const systemTheme = useSystemTheme()
+  const [themeChoice, setThemeChoice] = useState<ThemeId | null>(initial.theme)
+  const theme = themeChoice ?? systemTheme
+  // Picking the system's own scheme goes back to following it.
+  const setTheme = (next: ThemeId) => setThemeChoice(next === systemTheme ? null : next)
   const [format, setFormat] = useState<FormatId>(initial.format)
   const [style, setStyle] = useState<StyleId>(initial.style)
   const [exported, setExported] = useState(false)
@@ -45,8 +50,8 @@ export function App() {
 
   const repoParam = content ? `${content.owner}/${content.repo}` : initial.repo
   useEffect(() => {
-    writeUrlState({ repo: repoParam, theme, format, style })
-  }, [repoParam, theme, format, style])
+    writeUrlState({ repo: repoParam, theme: themeChoice, format, style })
+  }, [repoParam, themeChoice, format, style])
 
   const videoProps = useMemo<StarsVideoProps>(
     () => ({ ...(content ?? sampleProps), theme, style }),
@@ -81,7 +86,7 @@ export function App() {
           </a>
         </header>
 
-        <main className="flex flex-1 flex-col justify-center py-2 sm:py-4">
+        <main className="flex flex-1 flex-col justify-center py-1.5 sm:py-4">
           <motion.h1
             {...rise(0)}
             className="text-center text-[24px] leading-tight font-semibold tracking-[-0.03em] text-balance sm:text-[30px]"
