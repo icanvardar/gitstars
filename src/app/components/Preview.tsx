@@ -43,7 +43,10 @@ export function Preview({ props, format, busy }: Props) {
   }, [props, format])
 
   return (
-    <div className="w-full">
+    <div
+      className="w-full select-none [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none]"
+      onDragStart={(event) => event.preventDefault()}
+    >
       <div className="relative overflow-hidden rounded-[20px] border border-line bg-surface p-1.5 shadow-[0_24px_64px_-24px_rgb(0_0_0/0.35)]">
         <div className="relative overflow-hidden rounded-[14px]" style={{ aspectRatio: `${width} / ${height}` }}>
           <Player

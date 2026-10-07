@@ -148,6 +148,9 @@ function MilestoneTrack({ model, layout, theme }: Props & { model: MilestoneMode
         />
         <Tip at={tip} layout={layout} theme={theme} visible={tipVisible} arrival={arrival} />
       </svg>
+      <div style={{ ...caption(layout, theme), left: pad, top: track.labelTop, opacity: baseline }}>
+        {model.reached ? 'Milestone reached' : 'Next milestone'}
+      </div>
       <div
         style={{
           ...caption(layout, theme),

@@ -10,7 +10,6 @@ type ExportState =
   | { kind: 'unsupported'; reason: string }
   | { kind: 'idle'; codec: WebRendererVideoCodec | null }
   | { kind: 'rendering'; progress: number }
-  | { kind: 'done'; url: string; filename: string }
   | { kind: 'error'; message: string }
 
 type Props = {
@@ -39,13 +38,10 @@ export function ExportButton({ props, format, locked = false, onExported }: Prop
   const [state, setState] = useState<ExportState>({ kind: 'checking' })
   const codec = useRef<WebRendererVideoCodec | null>(null)
   const abort = useRef<AbortController | null>(null)
-  const objectUrl = useRef<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
     abort.current?.abort()
-    if (objectUrl.current) URL.revokeObjectURL(objectUrl.current)
-    objectUrl.current = null
     setState({ kind: 'checking' })
 
     const { width, height } = FORMATS[format]
@@ -90,10 +86,10 @@ export function ExportButton({ props, format, locked = false, onExported }: Prop
       const blob = await getBlob()
       if (controller.signal.aborted) return
       const url = URL.createObjectURL(blob)
-      objectUrl.current = url
-      const filename = `${props.repo}-stars-${FORMATS[format].label.replace(':', 'x')}.mp4`
-      download(url, filename)
-      setState({ kind: 'done', url, filename })
+      download(url, `${props.repo}-stars-${FORMATS[format].label.replace(':', 'x')}.mp4`)
+      // Safari starts the download asynchronously, so the URL must outlive this tick.
+      window.setTimeout(() => URL.revokeObjectURL(url), 60_000)
+      setState({ kind: 'idle', codec: codec.current })
       onExported?.()
     } catch (error) {
       if (controller.signal.aborted) {
@@ -107,19 +103,12 @@ export function ExportButton({ props, format, locked = false, onExported }: Prop
 
   const onClick = () => {
     if (state.kind === 'rendering') abort.current?.abort()
-    else if (state.kind === 'done') download(state.url, state.filename)
     else if (state.kind === 'idle' || state.kind === 'error') void start()
   }
 
   const disabled = locked || state.kind === 'checking' || state.kind === 'unsupported'
-  const label =
-    state.kind === 'rendering'
-      ? `${Math.round(state.progress * 100)}%`
-      : state.kind === 'done'
-        ? 'Download'
-        : state.kind === 'error'
-          ? 'Try again'
-          : 'Export'
+  const rendering = state.kind === 'rendering'
+  const label = rendering ? 'Cancel' : state.kind === 'error' ? 'Try again' : 'Export'
 
   return (
     <div className="relative flex flex-1 flex-col sm:flex-none sm:items-end">
@@ -127,8 +116,8 @@ export function ExportButton({ props, format, locked = false, onExported }: Prop
         type="button"
         onClick={onClick}
         disabled={disabled}
-        title={locked ? 'Enter a repo to export' : state.kind === 'unsupported' ? state.reason : state.kind === 'rendering' ? 'Cancel' : label}
-        aria-label={label}
+        title={locked ? 'Enter a repo to export' : state.kind === 'unsupported' ? state.reason : label}
+        aria-label={rendering ? `Cancel export, ${Math.round(state.progress * 100)}% done` : label}
         className="group relative flex h-11 w-full min-w-[104px] shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full bg-ink px-4 text-[14px] sm:h-9 sm:w-auto sm:text-[13px] sm:@max-[456px]:w-9 sm:@max-[456px]:min-w-0 sm:@max-[456px]:px-0 font-medium text-canvas transition-[transform,opacity] duration-200 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40"
       >
         {state.kind === 'rendering' ? (
@@ -149,16 +138,13 @@ export function ExportButton({ props, format, locked = false, onExported }: Prop
               transition={{ duration: 0.18 }}
               className="flex"
             >
-              {state.kind === 'rendering' ? (
-                <ProgressRing progress={state.progress} />
-              ) : state.kind === 'done' ? (
-                <CheckIcon />
-              ) : (
-                <DownloadIcon />
-              )}
+              {rendering ? <ProgressRing progress={state.progress} /> : <DownloadIcon />}
             </motion.span>
           </AnimatePresence>
-          <span className="tabular-nums sm:@max-[456px]:hidden">{label}</span>
+          <span className="flex items-center gap-1.5 tabular-nums sm:@max-[456px]:hidden">
+            {label}
+            {rendering ? <span className="inline-block w-[4ch] text-right opacity-60">{Math.round(state.progress * 100)}%</span> : null}
+          </span>
         </span>
       </button>
       {state.kind === 'unsupported' ? (
@@ -196,14 +182,6 @@ function DownloadIcon() {
   return (
     <svg viewBox="0 0 16 16" className="size-4" fill="none" stroke="currentColor" strokeWidth={1.6} aria-hidden>
       <path d="M8 2.5v8m0 0 3-3m-3 3-3-3M3 13.5h10" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-function CheckIcon() {
-  return (
-    <svg viewBox="0 0 16 16" className="size-4" fill="none" stroke="currentColor" strokeWidth={1.8} aria-hidden>
-      <path d="m3.5 8.5 3 3 6-7" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
