@@ -127,7 +127,9 @@ export function computeLayout(
   const inkBottom = inkTop + inkHeight
 
   const trackLabelTop = inkBottom + numberToTrackLabels
-  const track = { left: pad, width: innerWidth, labelTop: trackLabelTop, labelSize, y: trackLabelTop + labelSize + trackLabelsToLine }
+  // The tip travels inset by its ring radius so the dot's edge, not its center, lines up with the number.
+  const tipInset = 10.5 * u
+  const track = { left: pad, width: innerWidth, tipInset, labelTop: trackLabelTop, labelSize, y: trackLabelTop + labelSize + trackLabelsToLine }
 
 
   const chartTop = inkBottom + (orientation === 'portrait' ? 110 : 72) * u

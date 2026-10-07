@@ -16,6 +16,8 @@ type ExportState =
 type Props = {
   props: StarsVideoProps
   format: FormatId
+  /** The example video is preview-only. */
+  locked?: boolean
   onExported?: () => void
 }
 
@@ -33,7 +35,7 @@ function download(url: string, filename: string) {
   link.remove()
 }
 
-export function ExportButton({ props, format, onExported }: Props) {
+export function ExportButton({ props, format, locked = false, onExported }: Props) {
   const [state, setState] = useState<ExportState>({ kind: 'checking' })
   const codec = useRef<WebRendererVideoCodec | null>(null)
   const abort = useRef<AbortController | null>(null)
@@ -109,7 +111,7 @@ export function ExportButton({ props, format, onExported }: Props) {
     else if (state.kind === 'idle' || state.kind === 'error') void start()
   }
 
-  const disabled = state.kind === 'checking' || state.kind === 'unsupported'
+  const disabled = locked || state.kind === 'checking' || state.kind === 'unsupported'
   const label =
     state.kind === 'rendering'
       ? `${Math.round(state.progress * 100)}%`
@@ -125,7 +127,7 @@ export function ExportButton({ props, format, onExported }: Props) {
         type="button"
         onClick={onClick}
         disabled={disabled}
-        title={state.kind === 'unsupported' ? state.reason : state.kind === 'rendering' ? 'Cancel' : label}
+        title={locked ? 'Enter a repo to export' : state.kind === 'unsupported' ? state.reason : state.kind === 'rendering' ? 'Cancel' : label}
         aria-label={label}
         className="group relative flex h-11 w-full min-w-[104px] shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full bg-ink px-4 text-[14px] sm:h-9 sm:w-auto sm:text-[13px] sm:@max-[456px]:w-9 sm:@max-[456px]:min-w-0 sm:@max-[456px]:px-0 font-medium text-canvas transition-[transform,opacity] duration-200 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40"
       >

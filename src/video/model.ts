@@ -84,7 +84,10 @@ export function buildStarModel(props: StarsVideoProps, layout: Layout): StarMode
     reached: stars >= milestone,
     fraction,
     trackY: track.y,
-    tipAt: (frame) => ({ x: track.left + track.width * fraction * progressAt(frame), y: track.y }),
+    tipAt: (frame) => ({
+      x: track.left + track.tipInset + (track.width - 2 * track.tipInset) * fraction * progressAt(frame),
+      y: track.y,
+    }),
     valueAt: (frame) => stars * progressAt(frame),
   }
 }

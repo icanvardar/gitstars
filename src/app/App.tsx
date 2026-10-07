@@ -113,7 +113,7 @@ export function App() {
                 {content ? (
                   <ShareButton owner={content.owner} repo={content.repo} stars={content.stars} highlight={exported} />
                 ) : null}
-                <ExportButton props={videoProps} format={format} onExported={() => setExported(true)} />
+                <ExportButton props={videoProps} format={format} locked={!content} onExported={() => setExported(true)} />
               </div>
             </div>
           </motion.section>

@@ -120,10 +120,9 @@ function HistoryCurve({ model, layout, theme }: Props & { model: HistoryModel })
 
 function MilestoneTrack({ model, layout, theme }: Props & { model: MilestoneModel }) {
   const { frame, baseline, tipVisible, arrival } = useCurveTimeline()
-  const { track, u, width, height } = layout
+  const { track, u, width, height, pad } = layout
   const y = model.trackY
   const tip = model.tipAt(frame)
-  const right = track.left + track.width
 
   return (
     <>
@@ -152,7 +151,7 @@ function MilestoneTrack({ model, layout, theme }: Props & { model: MilestoneMode
       <div
         style={{
           ...caption(layout, theme),
-          right: width - right,
+          right: pad,
           top: track.labelTop,
           color: theme.text,
           opacity: baseline,
