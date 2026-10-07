@@ -25,10 +25,11 @@ export function readUrlState(): UrlState {
 export function writeUrlState(state: UrlState) {
   const params = new URLSearchParams()
   if (state.repo) params.set('repo', state.repo)
-  params.set('style', state.style)
+  if (state.style !== 'minimal') params.set('style', state.style)
   if (state.theme) params.set('theme', state.theme)
-  params.set('format', state.format)
-  const next = `${window.location.pathname}?${params.toString().replace(/%2F/g, '/')}`
+  if (state.format !== 'square') params.set('format', state.format)
+  const query = params.toString().replace(/%2F/g, '/')
+  const next = `${window.location.pathname}${query ? `?${query}` : ''}`
   if (next !== `${window.location.pathname}${window.location.search}`) {
     window.history.replaceState(null, '', next)
   }
