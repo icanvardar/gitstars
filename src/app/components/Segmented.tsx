@@ -1,7 +1,7 @@
 import { motion } from 'motion/react'
-import { useId } from 'react'
+import { useId, type ReactNode } from 'react'
 
-type Option<T extends string> = { value: T; label: string }
+type Option<T extends string> = { value: T; label: ReactNode; title?: string }
 
 type Props<T extends string> = {
   label: string
@@ -13,7 +13,7 @@ type Props<T extends string> = {
 export function Segmented<T extends string>({ label, value, options, onChange }: Props<T>) {
   const id = useId()
   return (
-    <div role="radiogroup" aria-label={label} className="flex rounded-full border border-line bg-surface p-1">
+    <div role="radiogroup" aria-label={label} className="flex shrink-0 rounded-full border border-line bg-surface p-[3px]">
       {options.map((option) => {
         const active = option.value === value
         return (
@@ -23,7 +23,9 @@ export function Segmented<T extends string>({ label, value, options, onChange }:
             role="radio"
             aria-checked={active}
             onClick={() => onChange(option.value)}
-            className={`relative h-8 rounded-full px-3.5 text-[13px] font-medium transition-colors duration-200 ${
+            title={option.title}
+            aria-label={option.title}
+            className={`relative flex h-7 items-center rounded-full px-2.5 text-[12.5px] font-medium transition-colors duration-200 ${
               active ? 'text-canvas' : 'text-muted hover:text-ink'
             }`}
           >
@@ -34,7 +36,7 @@ export function Segmented<T extends string>({ label, value, options, onChange }:
                 transition={{ type: 'spring', stiffness: 500, damping: 38 }}
               />
             ) : null}
-            <span className="relative">{option.label}</span>
+            <span className="relative flex">{option.label}</span>
           </button>
         )
       })}

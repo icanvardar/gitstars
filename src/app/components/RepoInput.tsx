@@ -47,7 +47,7 @@ export function RepoInput({ initialValue, state, onSubmit }: Props) {
             setValue(event.target.value)
             if (invalid) setInvalid(false)
           }}
-          placeholder="owner/repo or github.com URL"
+          placeholder="owner/repo"
           aria-label="GitHub repository"
           spellCheck={false}
           autoCapitalize="off"

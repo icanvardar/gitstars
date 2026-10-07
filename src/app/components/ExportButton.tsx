@@ -112,21 +112,22 @@ export function ExportButton({ props, format, onExported }: Props) {
   const disabled = state.kind === 'checking' || state.kind === 'unsupported'
   const label =
     state.kind === 'rendering'
-      ? `Rendering ${Math.round(state.progress * 100)}%`
+      ? `${Math.round(state.progress * 100)}%`
       : state.kind === 'done'
-        ? 'Download again'
+        ? 'Download'
         : state.kind === 'error'
           ? 'Try again'
-          : 'Export MP4'
+          : 'Export'
 
   return (
-    <div className="flex flex-col items-end gap-1.5">
+    <div className="relative flex flex-col items-end">
       <button
         type="button"
         onClick={onClick}
         disabled={disabled}
-        title={state.kind === 'unsupported' ? state.reason : state.kind === 'rendering' ? 'Cancel' : undefined}
-        className="group relative flex h-10 min-w-[152px] items-center justify-center gap-2 overflow-hidden rounded-full bg-ink px-5 text-[14px] font-medium text-canvas transition-[transform,opacity] duration-200 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40"
+        title={state.kind === 'unsupported' ? state.reason : state.kind === 'rendering' ? 'Cancel' : label}
+        aria-label={label}
+        className="group relative flex h-9 min-w-[104px] shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full bg-ink px-4 @max-[480px]:w-9 @max-[480px]:min-w-0 @max-[480px]:px-0 text-[13px] font-medium text-canvas transition-[transform,opacity] duration-200 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40"
       >
         {state.kind === 'rendering' ? (
           <motion.span
@@ -155,11 +156,11 @@ export function ExportButton({ props, format, onExported }: Props) {
               )}
             </motion.span>
           </AnimatePresence>
-          <span className="tabular-nums">{label}</span>
+          <span className="tabular-nums @max-[480px]:hidden">{label}</span>
         </span>
       </button>
       {state.kind === 'unsupported' ? (
-        <p className="max-w-[260px] text-right text-[12px] text-muted">
+        <p className="absolute top-full right-0 mt-1.5 w-[260px] text-right text-[12px] text-muted">
           Exporting needs Chrome 94+, Firefox 130+ or Safari 26+.
         </p>
       ) : null}

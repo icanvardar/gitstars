@@ -20,9 +20,9 @@ const AUTHOR_URL = 'https://x.com/icanvardar'
 /** Widest the column gets per format. */
 const MAX_WIDTH: Record<FormatId, number> = { landscape: 960, square: 600, portrait: 520 }
 /** Narrowest it gets on desktop, so the controls stay on one row. */
-const MIN_WIDTH = 460
+const MIN_WIDTH = 388
 /** Vertical space taken by everything except the video, so the page fits one screen. */
-const CHROME_HEIGHT = 330
+const CHROME_HEIGHT = 332
 
 const rise = (delay: number) => ({
   initial: { opacity: 0, y: 10, filter: 'blur(6px)' },
@@ -81,7 +81,7 @@ export function App() {
           </a>
         </header>
 
-        <main className="flex flex-1 flex-col justify-center py-5">
+        <main className="flex flex-1 flex-col justify-center py-4">
           <motion.h1
             {...rise(0)}
             className="text-center text-[26px] leading-tight font-semibold tracking-[-0.03em] text-balance sm:text-[30px]"
@@ -89,13 +89,13 @@ export function App() {
             Turn your stars into a video
           </motion.h1>
 
-          <motion.div {...rise(0.06)} className="mt-5">
+          <motion.div {...rise(0.06)} className="mt-4">
             <RepoInput initialValue={initial.repo ?? ''} state={state} onSubmit={(ref) => void load(ref)} />
           </motion.div>
 
-          <motion.section {...rise(0.12)} className="mt-7">
+          <motion.section {...rise(0.12)} className="@container mt-6">
             <Preview props={videoProps} format={format} busy={busy} />
-            <div className="mt-3.5 flex items-center justify-between gap-2">
+            <div className="mt-3.5 flex items-center justify-between gap-1.5">
               <Controls
                 style={style}
                 theme={theme}
@@ -114,7 +114,7 @@ export function App() {
           </motion.section>
         </main>
 
-        <footer className="flex h-12 shrink-0 items-center justify-between text-[12px] text-muted">
+        <footer className="flex h-11 shrink-0 items-center justify-between text-[12px] text-muted">
           <span>© {new Date().getFullYear()} GitStars</span>
           <a href={AUTHOR_URL} target="_blank" rel="noreferrer" className="transition-colors hover:text-ink">
             Built by @icanvardar
