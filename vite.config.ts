@@ -34,7 +34,7 @@ function seo(rawOrigin: string): Plugin {
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
-    plugins: [react(), tailwindcss(), seo(env.SITE_URL ?? '')],
+    plugins: [react(), tailwindcss(), seo(env.SITE_URL || 'https://gitstars.lol')],
     build: {
       target: 'es2022',
     },
