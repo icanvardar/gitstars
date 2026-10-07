@@ -53,6 +53,12 @@ export function App() {
     writeUrlState({ repo: repoParam, theme: themeChoice, format, style })
   }, [repoParam, themeChoice, format, style])
 
+  useEffect(() => {
+    document.title = content
+      ? `${content.owner}/${content.repo} stars - gitstars`
+      : 'gitstars - Turn your GitHub stars into a video'
+  }, [content])
+
   const videoProps = useMemo<StarsVideoProps>(
     () => ({ ...(content ?? sampleProps), theme, style }),
     [content, theme, style],

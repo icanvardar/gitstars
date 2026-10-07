@@ -9,8 +9,11 @@
     <title>gitstars - Turn your GitHub stars into a video</title>
     <meta
       name="description"
-      content="Turn your GitHub star count into a clean, cinematic video. Free, and rendered entirely in your browser."
+      content="Turn your GitHub star count into a clean, cinematic video. Free, no sign-in, and rendered entirely in your browser."
     />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="author" content="Can Vardar" />
+    <meta name="application-name" content="gitstars" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="gitstars" />
     <meta property="og:title" content="gitstars - Turn your GitHub stars into a video" />
@@ -28,12 +31,35 @@
     <meta name="twitter:title" content="gitstars - Turn your GitHub stars into a video" />
     <meta name="twitter:description" content="A clean, cinematic video of your GitHub stars. Paste a repo, share the milestone." />
     <meta name="twitter:image" content="%SITE_URL%/og.png" />
+    <meta property="og:locale" content="en_US" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "gitstars",
+        "url": "%SITE_URL%/",
+        "description": "Turn your GitHub star count into a clean, cinematic video. Free, no sign-in, and rendered entirely in your browser.",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires a modern browser with WebCodecs",
+        "image": "%SITE_URL%/og.png",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "author": { "@type": "Person", "name": "Can Vardar", "url": "https://x.com/icanvardar" },
+        "sameAs": ["https://github.com/icanvardar/gitstars"]
+      }
+    </script>
     <link rel="preload" href="/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <h1>gitstars - Turn your GitHub stars into a video</h1>
+      <p>Paste a public GitHub repo and get a clean, cinematic video of its stars. Free, no sign-in, and rendered entirely in your browser. JavaScript is required.</p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
