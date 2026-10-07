@@ -42,7 +42,7 @@ export function OgImage() {
             color: theme.muted,
           }}
         >
-          Paste a repo, get a video for X.
+          Paste a repo, get a shareable video.
         </div>
       </div>
 
