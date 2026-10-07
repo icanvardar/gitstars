@@ -1,0 +1,12 @@
+node_modules
+dist
+out
+*.tsbuildinfo
+.DS_Store
+.env
+.env.*
+!.env.example
+.dev.vars
+.wrangler/
+*.log
+.cursor/
