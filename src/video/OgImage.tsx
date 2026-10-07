@@ -1,7 +1,7 @@
 import { AbsoluteFill } from 'remotion'
 import { useSvgId } from './components/svgId'
 import { STAR } from './components/StarMark'
-import { MONO, SANS, useVideoFonts } from './fonts'
+import { SANS, useVideoFonts } from './fonts'
 import { THEMES } from './theme'
 
 export const OG_SIZE = { width: 1200, height: 630 }
@@ -36,15 +36,13 @@ export function OgImage() {
         </div>
         <div
           style={{
-            marginTop: 30,
-            fontFamily: MONO,
-            fontSize: 20,
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
+            marginTop: 28,
+            fontSize: 30,
+            letterSpacing: '-0.01em',
             color: theme.muted,
           }}
         >
-          Free · In your browser · Made for X
+          Paste a repo, get a video for X.
         </div>
       </div>
 
