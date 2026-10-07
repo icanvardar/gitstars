@@ -21,7 +21,7 @@ export function ShareButton({ owner, repo, stars, highlight }: Props) {
       rel="noreferrer"
       title="Post on X"
       aria-label="Post on X"
-      className={`grid size-9 shrink-0 place-items-center rounded-full border transition-[background-color,border-color,transform] duration-200 active:scale-[0.97] ${
+      className={`grid size-11 shrink-0 place-items-center sm:size-9 rounded-full border transition-[background-color,border-color,transform] duration-200 active:scale-[0.97] ${
         highlight ? 'border-accent/50 bg-accent/10 text-ink' : 'border-line bg-surface text-ink hover:border-[color-mix(in_srgb,var(--ink)_18%,transparent)]'
       }`}
     >

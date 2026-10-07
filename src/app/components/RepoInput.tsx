@@ -53,7 +53,7 @@ export function RepoInput({ initialValue, state, onSubmit }: Props) {
           autoCapitalize="off"
           autoCorrect="off"
           autoComplete="off"
-          className="h-full min-w-0 flex-1 bg-transparent text-[15px] text-ink outline-none placeholder:text-muted"
+          className="h-full min-w-0 flex-1 bg-transparent text-[16px] sm:text-[15px] text-ink outline-none placeholder:text-muted"
         />
         <button
           type="submit"

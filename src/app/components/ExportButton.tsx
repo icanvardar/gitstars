@@ -120,14 +120,14 @@ export function ExportButton({ props, format, onExported }: Props) {
           : 'Export'
 
   return (
-    <div className="relative flex flex-col items-end">
+    <div className="relative flex flex-1 flex-col sm:flex-none sm:items-end">
       <button
         type="button"
         onClick={onClick}
         disabled={disabled}
         title={state.kind === 'unsupported' ? state.reason : state.kind === 'rendering' ? 'Cancel' : label}
         aria-label={label}
-        className="group relative flex h-9 min-w-[104px] shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full bg-ink px-4 @max-[480px]:w-9 @max-[480px]:min-w-0 @max-[480px]:px-0 text-[13px] font-medium text-canvas transition-[transform,opacity] duration-200 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40"
+        className="group relative flex h-11 w-full min-w-[104px] shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full bg-ink px-4 text-[14px] sm:h-9 sm:w-auto sm:text-[13px] sm:@max-[480px]:w-9 sm:@max-[480px]:min-w-0 sm:@max-[480px]:px-0 font-medium text-canvas transition-[transform,opacity] duration-200 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40"
       >
         {state.kind === 'rendering' ? (
           <motion.span
@@ -156,11 +156,11 @@ export function ExportButton({ props, format, onExported }: Props) {
               )}
             </motion.span>
           </AnimatePresence>
-          <span className="tabular-nums @max-[480px]:hidden">{label}</span>
+          <span className="tabular-nums sm:@max-[480px]:hidden">{label}</span>
         </span>
       </button>
       {state.kind === 'unsupported' ? (
-        <p className="absolute top-full right-0 mt-1.5 w-[260px] text-right text-[12px] text-muted">
+        <p className="mt-1.5 text-center text-[12px] text-muted sm:absolute sm:top-full sm:right-0 sm:w-[260px] sm:text-right">
           Exporting needs Chrome 94+, Firefox 130+ or Safari 26+.
         </p>
       ) : null}

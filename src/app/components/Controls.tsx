@@ -13,7 +13,7 @@ type Props = {
 
 export function Controls({ style, theme, format, onStyleChange, onThemeChange, onFormatChange }: Props) {
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center justify-between gap-1 sm:justify-start">
       <Segmented
         label="Video style"
         value={style}
